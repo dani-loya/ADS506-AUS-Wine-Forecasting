@@ -1,0 +1,27 @@
+---
+title: "Week 5: Storytelling with Shiny app"
+format: html
+---
+
+
+```{r packages}
+library(fpp3)
+library(gt)
+library(shiny)
+```
+
+```{r load dataset}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```

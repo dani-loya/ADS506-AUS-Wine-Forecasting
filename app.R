@@ -140,9 +140,20 @@ server <- function(input, output, session) {
 
   training_accuracy <- reactive({
     fitted_models() |>
-      accuracy() |>
-      select(Varietal, .model, RMSE, MAE, MAPE) |>
-      rename(Model = .model)
+      fabletools::augment() |>
+      tibble::as_tibble() |>
+      dplyr::filter(
+        !is.na(Sales),
+        !is.na(.resid)
+      ) |>
+      dplyr::group_by(Varietal, .model) |>
+      dplyr::summarise(
+        RMSE = sqrt(mean(.resid^2)),
+        MAE = mean(abs(.resid)),
+        MAPE = mean(abs(.resid / Sales) * 100),
+        .groups = "drop"
+      ) |>
+      dplyr::rename(Model = .model)
   })
 
   model_specs <- reactive({
@@ -164,11 +175,39 @@ server <- function(input, output, session) {
   })
 
   validation_accuracy <- reactive({
-    validation_forecasts() |>
-      accuracy(filtered_wine()) |>
-      select(Varietal, .model, RMSE, MAE, MAPE) |>
-      rename (Model = .model)
-  })
+  forecast_values <- validation_forecasts() |>
+    tibble::as_tibble() |>
+    dplyr::select(Varietal, .model, Month, .mean)
+
+  actual_values <- validation_data() |>
+    tibble::as_tibble() |>
+    dplyr::select(
+      Varietal,
+      Month,
+      Actual = Sales
+    )
+
+  forecast_values |>
+    dplyr::left_join(
+      actual_values,
+      by = c("Varietal", "Month")
+    ) |>
+    dplyr::filter(
+      !is.na(Actual),
+      !is.na(.mean)
+    ) |>
+    dplyr::mutate(
+      Error = Actual - .mean
+    ) |>
+    dplyr::group_by(Varietal, .model) |>
+    dplyr::summarise(
+      RMSE = sqrt(mean(Error^2)),
+      MAE = mean(abs(Error)),
+      MAPE = mean(abs(Error / Actual) * 100),
+      .groups = "drop"
+    ) |>
+    dplyr::rename(Model = .model)
+})
 
   best_model <- reactive({
   validation_accuracy() |>

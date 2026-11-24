@@ -29,6 +29,20 @@ wine
 # %% User Interface
 ui <- page_sidebar(
   title = "Australian Wine Sales Forecast",
+  fillable = FALSE,
+
+  tags$head(
+  tags$style(HTML("
+    .shiny-html-output table {
+      font-size: 14px;
+    }
+
+    .shiny-html-output table th,
+    .shiny-html-output table td {
+      padding: 4px 8px;
+    }
+  "))
+),
 
   sidebar = sidebar(
     h4("Forecast Settings"),
@@ -68,33 +82,97 @@ ui <- page_sidebar(
     )
   ),
 
-  card(
-    card_header("Monthly Wine Sales"),
-    plotOutput("overview_plot")
-  ),
+  navset_card_underline(
 
-  card(
-    card_header("Comparative Forecasts"),
-    plotOutput("forecast_plot", height = "700px")
-  ), 
+    nav_panel(
+      "Forecast Dashboard",
 
-  card(
-    card_header("Model Specifications"),
-    tableOutput("model_specs")
-  ),
-  card(
-  card_header("Training Accuracy"),
-  tableOutput("training_accuracy")
-  ),
+      card(
+        card_header("Monthly Wine Sales"),
+        plotOutput("overview_plot", height = "350px")
+      ),
 
-  card(
-  card_header("Validation Accuracy"),
-  tableOutput("validation_accuracy")
-  ),
+      card(
+        card_header("Comparative Forecasts"),
+        plotOutput("forecast_plot", height = "250px")
+      ),
 
-  card(
-    card_header("Best Validation Model"),
-    tableOutput("best_model")
+      card(
+        card_header("Model Specifications"),
+        tableOutput("model_specs"),
+      fill = FALSE
+    ),
+
+      layout_columns(
+      card(
+        card_header("Training Accuracy"),
+        tableOutput("training_accuracy"),
+       fill = FALSE
+      ),
+
+    card(
+      card_header("Validation Accuracy"),
+      tableOutput("validation_accuracy"),
+      fill = FALSE
+    ),
+
+    col_widths = c(6, 6)
+    ),
+
+    card(
+      card_header("Best Validation Model"),
+      tableOutput("best_model"),
+      fill = FALSE
+    )
+    ),
+
+    nav_panel(
+      "About",
+
+      h3("About This App"),
+
+      h4("Data"),
+      p(
+        "This app analyzes monthly Australian wine sales by varietal. ",
+        "The data are organized as a monthly tsibble with Month as the time index ",
+        "and Varietal as the key."
+      ),
+
+      h4("Forecasting Models"),
+      p(
+        "The app compares three forecasting approaches: TSLM with trend and seasonality, ",
+        "automatically selected ETS and automatically selected ARIMA models. ",
+        "Models are fitted separately for each selected wine varietal."
+      ),
+
+      h4("Model Evaluation"),
+      p(
+        "Users choose the end of the training period. Observations after that date ",
+        "form the validation period. Model performance is compared using RMSE, MAE, ",
+        "and MAPE and the model with the lowest validation RMSE is identified."
+      ),
+
+      h4("Reproduce the Forecast Figure"),
+      tags$ol(
+        tags$li("Select Red and sparkling."),
+        tags$li("Set the date range to January 1980 through December 1994."),
+        tags$li("Set the Training End Date to December 1992."),
+        tags$li("Set the Forecast Horizon to 12 months."),
+        tags$li("View the Comparative Forecasts section.")
+      ),
+
+      h4("Forecast Uncertainty"),
+      p(
+        "Comparative forecasts include 80% and 95% prediction intervals."
+      ),
+
+      hr(),
+
+      p(
+        strong("Created by: "),
+        "Danitza Loya"
+      )
+    )
   )
 )
 # %% Server
@@ -255,15 +333,15 @@ server <- function(input, output, session) {
 
   output$training_accuracy <- renderTable({
     training_accuracy()
-  }, digits = 2)
+  }, digits = 2, spacing = "xs")
 
   output$validation_accuracy <- renderTable({
     validation_accuracy()
-  }, digits = 2)
+  }, digits = 2, spacing = "xs")
 
    output$best_model <- renderTable({
-  best_model()
-  }, digits = 2)
+    best_model()
+  }, digits = 2, spacing = "xs")
   
 }
 # %% Run App

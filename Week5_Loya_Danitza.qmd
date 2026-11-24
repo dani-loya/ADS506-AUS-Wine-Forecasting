@@ -4,19 +4,19 @@ format: pdf
 ---
 ## Part I: Shiny App
 
-**Deployed Shiny App:** [Open Australian Wine Sales Forecast](https://zqffpg-danitza-loya.shinyapps.io/australian-wine-forecasting/)
+**Shiny App:** [Open Australian Wine Sales Forecast](https://zqffpg-danitza-loya.shinyapps.io/australian-wine-forecasting/)
 
 **Code:** [View GitHub Repository](https://github.com/dani-loya/ADS506-AUS-Wine-Forecasting)
 
 
 ### App Features
 
-- Interactively compares multiple Australian wine varietals across a user-selected date range.
-- Fits **TSLM, ETS, and ARIMA** forecasting models using a user-defined training/validation split.
-- Reports model specifications, including automatically selected **ETS components and ARIMA orders**.
-- Compares training and validation performance using **RMSE, MAE, and MAPE**.
-- Displays comparative forecasts with **80% and 95% prediction intervals** and a user-defined forecast horizon.
-- Automatically identifies the **best validation model based on RMSE** for each selected varietal.
+- **Interactive wine exploration:** Select and compare multiple Australian wine varietals and customize the analysis period.
+- **Three forecasting approaches:** Compare TSLM, ETS, and ARIMA models using a user-defined training and validation split.
+- **Transparent model selection:** View the automatically selected ETS components and ARIMA orders for each varietal.
+- **Model performance comparison:** Evaluate training and validation accuracy using RMSE, MAE, and MAPE.
+- **Flexible forecasting:** Adjust the forecast horizon and compare forecasts with 80% and 95% prediction intervals.
+- **Best-model identification:** Quickly see which model achieves the lowest validation RMSE for each selected varietal.
 
 
 ## Part II : Data Story

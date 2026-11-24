@@ -18,16 +18,20 @@ format: pdf
 - **Flexible forecasting:** Adjust the forecast horizon and compare forecasts with 80% and 95% prediction intervals.
 - **Best-model identification:** Quickly see which model achieves the lowest validation RMSE for each selected varietal.
 
+{{< pagebreak >}}
 
 ## Part II : Data Story
 
-### Different Varietals Favor Different Forecasting Models
+### The Best Forecasting Model on the Wine Varietal
+
+Red and sparkling wine showed noticeably different sales patterns. Sparkling wine had stronger seasonal peaks, while Red wine followed a steadier pattern over time. The forecasting results reflected those differences: ETS had the lowest validation RMSE for Red wine (271.47), while ARIMA performed best for sparkling wine (334.76).
+
+This matters because using one forecasting model for every wine varietal may not provide the most accurate results. Comparing multiple models for each series helps identify the approach that better captures its individual sales pattern.
 
 ![Comparative forecasts for Red and sparkling wine. Settings: Red and sparkling; January 1980–December 1994; training end December 1992; 12-month forecast horizon.](Comparative_forecasts.png){width=95% fig-align="center"}
 
 **Reproduce Figure 1:** [Open the Australian Wine Sales Forecast app](https://zqffpg-danitza-loya.shinyapps.io/australian-wine-forecasting/)
 
-The forecasting results show that no single model performed best for both wine varietals. **ETS produced the lowest validation RMSE for Red wine (271.47), while ARIMA performed best for sparkling wine (334.76).** This difference suggests that forecast performance depends on the sales pattern of each varietal rather than one model consistently outperforming the others.
 
 ### Validation Evidence
 

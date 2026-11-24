@@ -165,7 +165,7 @@ server <- function(input, output, session) {
 
   validation_accuracy <- reactive({
     validation_forecasts() |>
-      accuracy(validation_data()) |>
+      accuracy(filtered_wine()) |>
       select(Varietal, .model, RMSE, MAE, MAPE) |>
       rename (Model = .model)
   })

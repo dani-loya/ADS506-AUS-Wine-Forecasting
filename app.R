@@ -75,8 +75,8 @@ ui <- page_sidebar(
 
   card(
     card_header("Comparative Forecasts"),
-    plotOutput("forecast_plot")
-  ),
+    plotOutput("forecast_plot", height = "700px")
+  ), 
 
   card(
     card_header("Model Specifications"),
@@ -240,13 +240,13 @@ server <- function(input, output, session) {
       scales = "free_y"
     ) +
     labs(
-      title = "Comparative Model Forecasts",
-      subtitle = paste("Forecast horizon:", input$horizon, "months"),
-      x = "Month",
-      y = "Sales",
-      caption = "Shaded areas show 80% and 95% prediction intervals"
-    ) +
-    theme_minimal()
+  title = "Comparative Model Forecasts",
+  subtitle = paste("Forecast horizon:", input$horizon, "months"),
+  x = "Month",
+  y = "Sales",
+  colour = "Model",
+  fill = "Model",
+  caption = "Shaded areas show 80% and 95% prediction intervals")
   })
 
   output$model_specs <- renderTable({

@@ -1,27 +1,37 @@
 ---
-title: "Week 5: Storytelling with Shiny app"
-format: html
+title: "Week 5: Storytelling with Shiny App"
+format: pdf
 ---
+## Part I: Shiny App
+
+**Deployed Shiny App:** [Open Australian Wine Sales Forecast](https://zqffpg-danitza-loya.shinyapps.io/australian-wine-forecasting/)
+
+**Code:** [View GitHub Repository](https://github.com/dani-loya/ADS506-AUS-Wine-Forecasting)
 
 
-```{r packages}
-library(fpp3)
-library(gt)
-library(shiny)
-```
+### App Features
 
-```{r load dataset}
+- Interactively compares multiple Australian wine varietals across a user-selected date range.
+- Fits **TSLM, ETS, and ARIMA** forecasting models using a user-defined training/validation split.
+- Reports model specifications, including automatically selected **ETS components and ARIMA orders**.
+- Compares training and validation performance using **RMSE, MAE, and MAPE**.
+- Displays comparative forecasts with **80% and 95% prediction intervals** and a user-defined forecast horizon.
+- Automatically identifies the **best validation model based on RMSE** for each selected varietal.
 
-```
 
-```{r}
+## Part II : Data Story
 
-```
+### Different Varietals Favor Different Forecasting Models
 
-```{r}
+![Comparative forecasts for Red and sparkling wine. Settings: Red and sparkling; January 1980–December 1994; training end December 1992; 12-month forecast horizon.](Comparative_forecasts.png){width=95% fig-align="center"}
 
-```
+**Reproduce Figure 1:** [Open the Australian Wine Sales Forecast app](https://zqffpg-danitza-loya.shinyapps.io/australian-wine-forecasting/)
 
-```{r}
+The forecasting results show that no single model performed best for both wine varietals. **ETS produced the lowest validation RMSE for Red wine (271.47), while ARIMA performed best for sparkling wine (334.76).** This difference suggests that forecast performance depends on the sales pattern of each varietal rather than one model consistently outperforming the others.
 
-```
+### Validation Evidence
+
+| Varietal | Best Model | Model Specification | Validation RMSE |
+|---|---|---|---:|
+| Red | ETS | ETS(M,A,M) | 271.47 |
+| sparkling | ARIMA | ARIMA(0,0,1)(0,1,1)[12] | 334.76 |
